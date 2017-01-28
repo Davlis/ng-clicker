@@ -17,20 +17,56 @@ var GameComponent = (function () {
         this.count = 0;
     }
     GameComponent.prototype.ngOnInit = function () {
+        var _this = this;
         console.log('Game page');
         this.which = [];
+        setInterval(function (value) {
+            if (value === void 0) { value = 1; }
+            _this.count += value;
+        }, 1000);
     };
     GameComponent.prototype.onClick = function (which) {
-        if (isNaN(this.which[which])) {
-            this.which[which] = 0;
-            this.which[which] += 1;
+        var clickValue = 1;
+        if (!isNaN(which)) {
+            this.count += clickValue;
+            if (isNaN(this.which[which])) {
+                this.which[which] = 0;
+                this.which[which] += 1;
+            }
+            else {
+                this.which[which] += 1;
+            }
+            if (this.which[which] == 3) {
+                console.log("Blok " + (which + 1) + " osiagnal 3");
+            }
+            this.logic(which);
         }
-        else {
-            this.which[which] += 1;
-        }
-        this.count += 1; // counter for global
-        if (this.which[which] == 3) {
-            console.log("Blok " + (which + 1) + " osiagnal 3");
+    };
+    GameComponent.prototype.counterIncBySec = function () {
+    };
+    GameComponent.prototype.logic = function (which) {
+        if (!isNaN(which)) {
+            switch (which) {
+                case 0: {
+                    console.log('0');
+                    break;
+                }
+                case 1: {
+                    console.log('1');
+                    break;
+                }
+                case 2: {
+                    console.log('2');
+                    break;
+                }
+                case 3: {
+                    console.log('3');
+                    break;
+                }
+                default: {
+                    console.log('wut?');
+                }
+            }
         }
     };
     GameComponent.prototype.createRange = function (number) {

@@ -10,6 +10,8 @@ export class GameComponent implements OnInit{
 	ngOnInit(){
 		console.log('Game page');
 		this.which = [ ];
+
+		setInterval((value=1) => { this.count+=value; }, 1000);
 	}
 
 	fullImagePath: any;
@@ -28,18 +30,48 @@ export class GameComponent implements OnInit{
 
 	onClick(which:number){
 
-		if(isNaN(this.which[which])){
-			this.which[which]=0;
-			this.which[which]+=1;
-		}else{
-			this.which[which]+=1;
+		let clickValue = 1;
+
+		if(!isNaN(which)){
+			this.count+=clickValue;
+			if(isNaN(this.which[which])){
+				this.which[which]=0;
+				this.which[which]+=1;
+			}else{
+				this.which[which]+=1;
+			}
+			if(this.which[which] ==  3){
+				console.log(`Blok ${which+1} osiagnal 3`);
+			}
+
+			this.logic(which);
 		}
+	}
 
-		this.count+=1;	// counter for global
+	counterIncBySec(){
 
+	}
 
-		if(this.which[which] ==  3){
-			console.log(`Blok ${which+1} osiagnal 3`);
+	logic(which:number){
+		if(!isNaN(which)){
+			switch (which){
+				case 0 : {
+					console.log('0'); break;
+				}
+				case 1 : {
+					console.log('1'); break;
+				}
+				case 2 : {
+					console.log('2'); break;
+				}
+				case 3 : {
+					console.log('3'); break;
+				}
+				default: {
+					console.log('wut?');
+				}
+			}
+
 		}
 	}
 
