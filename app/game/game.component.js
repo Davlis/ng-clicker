@@ -21,7 +21,7 @@ var GameComponent = (function () {
         this.which = [];
         this.clickValue = 1;
         this.countPerSec = 0;
-        this.counterIncBySec(this.countPerSec);
+        this.counterIncBySec();
     };
     GameComponent.prototype.onClick = function (which) {
         var clickValue = 1;
@@ -37,13 +37,13 @@ var GameComponent = (function () {
             this.logic(which);
         }
     };
-    GameComponent.prototype.counterIncBySec = function (value) {
+    GameComponent.prototype.counterIncBySec = function () {
         var _this = this;
-        if (value === void 0) { value = 0; }
-        if (this.refToInterval) {
-            clearInterval(this.refToInterval);
+        var that = this;
+        if (that.refToInterval) {
+            clearInterval(that.refToInterval);
         }
-        this.refToInterval = setInterval(function () { _this.count += value; }, 1000);
+        that.refToInterval = setInterval(function () { that.count += _this.countPerSec; }, 1000);
     };
     GameComponent.prototype.logic = function (which) {
         if (!isNaN(which)) {
@@ -62,7 +62,6 @@ var GameComponent = (function () {
                 }
                 case 3: {
                     this.countPerSec += 3;
-                    this.counterIncBySec(this.countPerSec);
                     console.log('3');
                     break;
                 }

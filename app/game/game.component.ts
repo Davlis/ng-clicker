@@ -12,7 +12,7 @@ export class GameComponent implements OnInit{
 		this.which = [ ];
 		this.clickValue = 1;
 		this.countPerSec = 0;
-		this.counterIncBySec(this.countPerSec)
+		this.counterIncBySec();
 	}
 
 	fullImagePath: any;
@@ -46,12 +46,14 @@ export class GameComponent implements OnInit{
 		}
 	}
 
-	counterIncBySec(value=0){
-		if(this.refToInterval){
-			clearInterval(this.refToInterval);
-		}
+	counterIncBySec(){
+		let that = this;
 
-		this.refToInterval = setInterval(() => { this.count+=value; }, 1000);
+			if(that.refToInterval){
+				clearInterval(that.refToInterval);
+			}
+
+			that.refToInterval = setInterval(() => { that.count+=this.countPerSec; }, 1000);
 	}
 
 	logic(which:number){
@@ -68,7 +70,6 @@ export class GameComponent implements OnInit{
 				}
 				case 3 : {
 					this.countPerSec+=3;
-					this.counterIncBySec(this.countPerSec);
 					console.log('3'); break;
 				}
 				default: {
