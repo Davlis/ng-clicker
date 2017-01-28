@@ -10,15 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var GameComponent = (function () {
+    //@ViewChild('block1') block1: any;
+    //@ViewChild('block2') block2: any;
     function GameComponent() {
         this.fullImagePath = '../../images/square.png';
         this.count = 0;
     }
     GameComponent.prototype.ngOnInit = function () {
         console.log('Game page');
+        this.which = [];
     };
-    GameComponent.prototype.onClick = function () {
-        this.count += 1;
+    GameComponent.prototype.onClick = function (which) {
+        if (isNaN(this.which[which])) {
+            this.which[which] = 0;
+            this.which[which] += 1;
+        }
+        else {
+            this.which[which] += 1;
+        }
+        this.count += 1; // counter for global
+        if (this.which[which] == 3) {
+            console.log("Blok " + (which + 1) + " osiagnal 3");
+        }
+    };
+    GameComponent.prototype.createRange = function (number) {
+        var items = [];
+        for (var i = 1; i <= number; i++) {
+            items.push(i);
+        }
+        return items;
     };
     GameComponent = __decorate([
         core_1.Component({

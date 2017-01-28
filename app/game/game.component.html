@@ -1,4 +1,5 @@
 <p>{{count}}</p>
-<div>
-	<img [src]="fullImagePath" (click)="onClick()"/>
-</div>
+
+<span *ngFor="let i of createRange(4); let index = index">
+		<img [src]="fullImagePath" (click)="onClick(index)"/>
+</span>
