@@ -10,14 +10,16 @@ export class GameComponent implements OnInit{
 	ngOnInit(){
 		console.log('Game page');
 		this.which = [ ];
-
-		setInterval((value=1) => { this.count+=value; }, 1000);
+		this.clickValue = 1;
+		this.countPerSec = 0;
+		this.counterIncBySec(this.countPerSec)
 	}
 
 	fullImagePath: any;
 	which : number[];
-
-
+	refToInterval : any;
+	clickValue : number;
+	countPerSec : number;
 	//@ViewChild('block1') block1: any;
 	//@ViewChild('block2') block2: any;
 
@@ -29,7 +31,6 @@ export class GameComponent implements OnInit{
 	count : number;
 
 	onClick(which:number){
-
 		let clickValue = 1;
 
 		if(!isNaN(which)){
@@ -40,16 +41,17 @@ export class GameComponent implements OnInit{
 			}else{
 				this.which[which]+=1;
 			}
-			if(this.which[which] ==  3){
-				console.log(`Blok ${which+1} osiagnal 3`);
-			}
 
 			this.logic(which);
 		}
 	}
 
-	counterIncBySec(){
+	counterIncBySec(value=0){
+		if(this.refToInterval){
+			clearInterval(this.refToInterval);
+		}
 
+		this.refToInterval = setInterval(() => { this.count+=value; }, 1000);
 	}
 
 	logic(which:number){
@@ -65,6 +67,8 @@ export class GameComponent implements OnInit{
 					console.log('2'); break;
 				}
 				case 3 : {
+					this.countPerSec+=3;
+					this.counterIncBySec(this.countPerSec);
 					console.log('3'); break;
 				}
 				default: {

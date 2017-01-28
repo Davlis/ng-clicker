@@ -17,13 +17,11 @@ var GameComponent = (function () {
         this.count = 0;
     }
     GameComponent.prototype.ngOnInit = function () {
-        var _this = this;
         console.log('Game page');
         this.which = [];
-        setInterval(function (value) {
-            if (value === void 0) { value = 1; }
-            _this.count += value;
-        }, 1000);
+        this.clickValue = 1;
+        this.countPerSec = 0;
+        this.counterIncBySec(this.countPerSec);
     };
     GameComponent.prototype.onClick = function (which) {
         var clickValue = 1;
@@ -36,13 +34,16 @@ var GameComponent = (function () {
             else {
                 this.which[which] += 1;
             }
-            if (this.which[which] == 3) {
-                console.log("Blok " + (which + 1) + " osiagnal 3");
-            }
             this.logic(which);
         }
     };
-    GameComponent.prototype.counterIncBySec = function () {
+    GameComponent.prototype.counterIncBySec = function (value) {
+        var _this = this;
+        if (value === void 0) { value = 0; }
+        if (this.refToInterval) {
+            clearInterval(this.refToInterval);
+        }
+        this.refToInterval = setInterval(function () { _this.count += value; }, 1000);
     };
     GameComponent.prototype.logic = function (which) {
         if (!isNaN(which)) {
@@ -60,6 +61,8 @@ var GameComponent = (function () {
                     break;
                 }
                 case 3: {
+                    this.countPerSec += 3;
+                    this.counterIncBySec(this.countPerSec);
                     console.log('3');
                     break;
                 }
