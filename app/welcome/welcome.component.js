@@ -20,7 +20,6 @@ var WelcomeComponent = (function () {
             moduleId: module.id,
             selector: 'my-welcome',
             templateUrl: 'welcome.component.html',
-            stylesUrl: ['welcome.component.css']
         }), 
         __metadata('design:paramtypes', [])
     ], WelcomeComponent);

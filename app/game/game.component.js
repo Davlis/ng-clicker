@@ -25,7 +25,6 @@ var GameComponent = (function () {
             moduleId: module.id,
             selector: 'my-game',
             templateUrl: 'game.component.html',
-            stylesUrl: ['game.component.css']
         }), 
         __metadata('design:paramtypes', [])
     ], GameComponent);

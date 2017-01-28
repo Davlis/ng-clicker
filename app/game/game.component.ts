@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
 	moduleId: module.id,
 	selector: 'my-game',
-	templateUrl: 'game.component.html'
-	stylesUrl: ['game.component.css']
+	templateUrl: 'game.component.html',
 })
 
 export class GameComponent implements OnInit{
