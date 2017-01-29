@@ -60,8 +60,10 @@ export class GameComponent implements OnInit{
 			this.countPerSec = +countPerSec;
 			this.timeOnPage = +timeOnPage;
 
+			console.log(cost);
+
 			for(let i=0; i<HOWMANYBLOCKS; i++){
-				if(cost[i]){
+				if(!isNaN(cost[i])){
 					this.cost[i] = cost[i];
 				} else {
 					this.initCost();
@@ -72,7 +74,6 @@ export class GameComponent implements OnInit{
 
 	}
 
-	// todo : check why cookie expries after closing browser :(
 	saveToCookie(){
 		let expires = new Date(Date.now() + 7*24*60*60*1000);
 
@@ -89,7 +90,7 @@ export class GameComponent implements OnInit{
 		this.countPerSec=0;
 		this.timeOnPage=0;
 		this.initCost();
-		this.saveToCookie();
+		//this.saveToCookie();
 	}
 
 	initCost(){

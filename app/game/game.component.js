@@ -46,8 +46,9 @@ var GameComponent = (function () {
             this.count = +count;
             this.countPerSec = +countPerSec;
             this.timeOnPage = +timeOnPage;
+            console.log(cost);
             for (var i = 0; i < exports.HOWMANYBLOCKS; i++) {
-                if (cost[i]) {
+                if (!isNaN(cost[i])) {
                     this.cost[i] = cost[i];
                 }
                 else {
@@ -57,7 +58,6 @@ var GameComponent = (function () {
             }
         }
     };
-    // todo : check why cookie expries after closing browser :(
     GameComponent.prototype.saveToCookie = function () {
         var expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
         this._cookieService.putObject('total', this.total, { expires: expires });
@@ -72,7 +72,7 @@ var GameComponent = (function () {
         this.countPerSec = 0;
         this.timeOnPage = 0;
         this.initCost();
-        this.saveToCookie();
+        //this.saveToCookie();
     };
     GameComponent.prototype.initCost = function () {
         for (var i = 0; i < exports.HOWMANYBLOCKS; ++i) {
