@@ -22,7 +22,7 @@ export class GameComponent implements OnInit{
 		this.cost = [ ];			// cost of click
 		this.countPerSec = 0;		// inc score per second
 		this.timeOnPage = 0;		// how much time user lost on pag
-
+		this.end = false;			// end of game
 		this.counterIncBySec();		// incrementing score START
 		this.initCost();			// initialize cost of blocks
 	}
@@ -35,6 +35,7 @@ export class GameComponent implements OnInit{
 	count : number;
 	timeOnPage : number;
 	total : number;
+	end : boolean;
 
 	initCost(){
 		for(let i=0; i<=HOWMANYBLOCKS; ++i){
@@ -62,41 +63,56 @@ export class GameComponent implements OnInit{
 
 			this.total+=this.countPerSec;
 			this.timeOnPage+=1;
+
 		}, 1000);
 	}
 
+	stop(){
+		if(this.refToInterval){
+			clearInterval(this.refToInterval);
+		}
+	}
+
 	logic(which:number){
-		if(!isNaN(which)){
+		if(!this.end){
+			if(!isNaN(which)){
 
-		let choice=0;
-			if(which >= 1){
-				if(which <= 3){
-					choice = 1;
-				}
-			}
-
-			switch (choice){
-				case 0 : {
-					this.total+=1;
-					this.count+=1;
-					this.which[which]+=1;
-					break;
-				}
-				case 1 : {
-					let cost = this.cost[which];
-					if(this.count >= cost){
-						this.count-= cost;
-						this.countPerSec+=which;
-						this.which[which]+=1;
-						this.cost[which]+=Math.ceil(this.cost[which]*0.25);
+			let choice=0;
+				if(which >= 1){
+					if(which <= 3){
+						choice = 1;
 					}
-				    break;
-				 }
-				default: {
-					console.log('wut?');
 				}
+
+				switch (choice){
+					case 0 : {
+						this.total+=1;
+						this.count+=1;
+						this.which[which]+=1;
+						break;
+					}
+					case 1 : {
+						let cost = this.cost[which];
+						if(this.count >= cost){
+							this.count-= cost;
+							this.countPerSec+=which;
+							this.which[which]+=1;
+							this.cost[which]+=Math.ceil(this.cost[which]*0.25);
+						}
+					    break;
+					 }
+					default: {
+						console.log('wut?');
+					}
+				}
+
 			}
 
+			if(this.count >= 10*10*10*10*10){
+				this.stop();
+				this.end = true;
+				alert('Wygrales');
+			}
 		}
 	}
 

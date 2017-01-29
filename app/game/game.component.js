@@ -22,6 +22,7 @@ var GameComponent = (function () {
         this.cost = []; // cost of click
         this.countPerSec = 0; // inc score per second
         this.timeOnPage = 0; // how much time user lost on pag
+        this.end = false; // end of game
         this.counterIncBySec(); // incrementing score START
         this.initCost(); // initialize cost of blocks
     };
@@ -49,34 +50,46 @@ var GameComponent = (function () {
             _this.timeOnPage += 1;
         }, 1000);
     };
+    GameComponent.prototype.stop = function () {
+        if (this.refToInterval) {
+            clearInterval(this.refToInterval);
+        }
+    };
     GameComponent.prototype.logic = function (which) {
-        if (!isNaN(which)) {
-            var choice = 0;
-            if (which >= 1) {
-                if (which <= 3) {
-                    choice = 1;
+        if (!this.end) {
+            if (!isNaN(which)) {
+                var choice = 0;
+                if (which >= 1) {
+                    if (which <= 3) {
+                        choice = 1;
+                    }
+                }
+                switch (choice) {
+                    case 0: {
+                        this.total += 1;
+                        this.count += 1;
+                        this.which[which] += 1;
+                        break;
+                    }
+                    case 1: {
+                        var cost = this.cost[which];
+                        if (this.count >= cost) {
+                            this.count -= cost;
+                            this.countPerSec += which;
+                            this.which[which] += 1;
+                            this.cost[which] += Math.ceil(this.cost[which] * 0.25);
+                        }
+                        break;
+                    }
+                    default: {
+                        console.log('wut?');
+                    }
                 }
             }
-            switch (choice) {
-                case 0: {
-                    this.total += 1;
-                    this.count += 1;
-                    this.which[which] += 1;
-                    break;
-                }
-                case 1: {
-                    var cost = this.cost[which];
-                    if (this.count >= cost) {
-                        this.count -= cost;
-                        this.countPerSec += which;
-                        this.which[which] += 1;
-                        this.cost[which] += Math.ceil(this.cost[which] * 0.25);
-                    }
-                    break;
-                }
-                default: {
-                    console.log('wut?');
-                }
+            if (this.count >= 10 * 10 * 10 * 10 * 10) {
+                this.stop();
+                this.end = true;
+                alert('Wygrales');
             }
         }
     };
