@@ -13,26 +13,28 @@ export class GameComponent implements OnInit{
 	constructor(){
 		this.fullImagePath = '../../images/square.png';
 		this.count = 0;
+		this.total = 0;
 	}
 
 	ngOnInit(){
 		console.log('Game page');
-		this.which = [ ];
-		this.cost = [ ];
-		this.clickValue = 1;
-		this.countPerSec = 0;
-		this.counterIncBySec();
+		this.which = [ ];			// which block clicked
+		this.cost = [ ];			// cost of click
+		this.countPerSec = 0;		// inc score per second
+		this.timeOnPage = 0;		// how much time user lost on pag
 
-		this.initCost();
+		this.counterIncBySec();		// incrementing score START
+		this.initCost();			// initialize cost of blocks
 	}
 
 	fullImagePath: any;
 	which : number[];
 	cost  : number[];
 	refToInterval : any;
-	clickValue : number;
 	countPerSec : number;
 	count : number;
+	timeOnPage : number;
+	total : number;
 
 	initCost(){
 		for(let i=0; i<=HOWMANYBLOCKS; ++i){
@@ -44,7 +46,7 @@ export class GameComponent implements OnInit{
 		if(!isNaN(which)){
 
 			if(isNaN(this.which[which])){
-				this.which[which]=0;	// how many clicked
+				this.which[which]=0;
 			}
 
 			this.logic(which);
@@ -55,7 +57,12 @@ export class GameComponent implements OnInit{
 		if(this.refToInterval){
 			clearInterval(this.refToInterval);
 		}
-		this.refToInterval = setInterval(() => { this.count+=this.countPerSec; }, 1000);
+		this.refToInterval = setInterval(() => {
+			this.count+=this.countPerSec;
+
+			this.total+=this.countPerSec;
+			this.timeOnPage+=1;
+		}, 1000);
 	}
 
 	logic(which:number){
@@ -70,6 +77,7 @@ export class GameComponent implements OnInit{
 
 			switch (choice){
 				case 0 : {
+					this.total+=1;
 					this.count+=1;
 					this.which[which]+=1;
 					break;

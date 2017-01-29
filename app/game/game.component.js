@@ -14,15 +14,16 @@ var GameComponent = (function () {
     function GameComponent() {
         this.fullImagePath = '../../images/square.png';
         this.count = 0;
+        this.total = 0;
     }
     GameComponent.prototype.ngOnInit = function () {
         console.log('Game page');
-        this.which = [];
-        this.cost = [];
-        this.clickValue = 1;
-        this.countPerSec = 0;
-        this.counterIncBySec();
-        this.initCost();
+        this.which = []; // which block clicked
+        this.cost = []; // cost of click
+        this.countPerSec = 0; // inc score per second
+        this.timeOnPage = 0; // how much time user lost on pag
+        this.counterIncBySec(); // incrementing score START
+        this.initCost(); // initialize cost of blocks
     };
     GameComponent.prototype.initCost = function () {
         for (var i = 0; i <= exports.HOWMANYBLOCKS; ++i) {
@@ -32,7 +33,7 @@ var GameComponent = (function () {
     GameComponent.prototype.onClick = function (which) {
         if (!isNaN(which)) {
             if (isNaN(this.which[which])) {
-                this.which[which] = 0; // how many clicked
+                this.which[which] = 0;
             }
             this.logic(which);
         }
@@ -42,7 +43,11 @@ var GameComponent = (function () {
         if (this.refToInterval) {
             clearInterval(this.refToInterval);
         }
-        this.refToInterval = setInterval(function () { _this.count += _this.countPerSec; }, 1000);
+        this.refToInterval = setInterval(function () {
+            _this.count += _this.countPerSec;
+            _this.total += _this.countPerSec;
+            _this.timeOnPage += 1;
+        }, 1000);
     };
     GameComponent.prototype.logic = function (which) {
         if (!isNaN(which)) {
@@ -54,6 +59,7 @@ var GameComponent = (function () {
             }
             switch (choice) {
                 case 0: {
+                    this.total += 1;
                     this.count += 1;
                     this.which[which] += 1;
                     break;
