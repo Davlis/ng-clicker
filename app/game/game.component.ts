@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'angular2-cookie/core';
 
-import { CookieOptionsArgs } from 'angular2-cookie/services/cookie-options-args.model';
-
 export const HOWMANYBLOCKS = 4;
 export enum EVENTS {
 	FIRST,
@@ -33,7 +31,7 @@ export class GameComponent implements OnInit{
 		this.EVENTS = EVENTS;		// group of events clicked
 		this.initCost();			// initialize cost of blocks
 		this.counterIncBySec();		// incrementing score START
-		this.getValFromCookies();
+		this.getValFromCookies();	// get saved values
 
 	}
 
@@ -89,6 +87,7 @@ export class GameComponent implements OnInit{
 		this.total=0;
 		this.count=0;
 		this.countPerSec=0;
+		this.timeOnPage=0;
 		this.initCost();
 		this.saveToCookie();
 	}

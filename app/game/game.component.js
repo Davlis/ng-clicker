@@ -33,7 +33,7 @@ var GameComponent = (function () {
         this.EVENTS = EVENTS; // group of events clicked
         this.initCost(); // initialize cost of blocks
         this.counterIncBySec(); // incrementing score START
-        this.getValFromCookies();
+        this.getValFromCookies(); // get saved values
     };
     GameComponent.prototype.getValFromCookies = function () {
         var total = this._cookieService.getObject('total');
@@ -70,6 +70,7 @@ var GameComponent = (function () {
         this.total = 0;
         this.count = 0;
         this.countPerSec = 0;
+        this.timeOnPage = 0;
         this.initCost();
         this.saveToCookie();
     };
