@@ -40,10 +40,12 @@ var GameComponent = (function () {
         var count = this._cookieService.getObject('count');
         var countPerSec = this._cookieService.getObject('countPerSec');
         var cost = this._cookieService.getObject('cost');
-        if (!isNaN(+total) && !isNaN(+count) && !isNaN(+countPerSec) && cost) {
+        var timeOnPage = this._cookieService.getObject('timeOnPage');
+        if (!isNaN(+total) && !isNaN(+count) && !isNaN(+countPerSec) && !isNaN(+timeOnPage) && cost) {
             this.total = +total;
             this.count = +count;
             this.countPerSec = +countPerSec;
+            this.timeOnPage = +timeOnPage;
             for (var i = 0; i < exports.HOWMANYBLOCKS; i++) {
                 if (cost[i]) {
                     this.cost[i] = cost[i];
@@ -61,6 +63,7 @@ var GameComponent = (function () {
         this._cookieService.putObject('count', this.count, 7);
         this._cookieService.putObject('countPerSec', this.countPerSec, 7);
         this._cookieService.putObject('cost', this.cost, 7);
+        this._cookieService.putObject('timeOnPage', this.timeOnPage);
     };
     GameComponent.prototype.reset = function () {
         this.total = 0;

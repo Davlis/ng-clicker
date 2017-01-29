@@ -51,12 +51,14 @@ export class GameComponent implements OnInit{
 		let count = this._cookieService.getObject('count');
 		let countPerSec = this._cookieService.getObject('countPerSec');
 		let cost = this._cookieService.getObject('cost');
+		let timeOnPage = this._cookieService.getObject('timeOnPage');
 
-		if(!isNaN(+total) && !isNaN(+count) && !isNaN(+countPerSec) && cost){
+		if(!isNaN(+total) && !isNaN(+count) && !isNaN(+countPerSec) && !isNaN(+timeOnPage) && cost){
 
 			this.total = +total;
 			this.count = +count;
 			this.countPerSec = +countPerSec;
+			this.timeOnPage = +timeOnPage;
 
 			for(let i=0; i<HOWMANYBLOCKS; i++){
 				if(cost[i]){
@@ -77,6 +79,7 @@ export class GameComponent implements OnInit{
 		this._cookieService.putObject('count',this.count,7);
 		this._cookieService.putObject('countPerSec',this.countPerSec,7)
 		this._cookieService.putObject('cost',this.cost,7);
+		this._cookieService.putObject('timeOnPage',this.timeOnPage);
 	}
 
 	reset(){
