@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'angular2-cookie/core';
 
 export const HOWMANYBLOCKS = 4;
 export enum EVENTS {
@@ -14,7 +15,7 @@ export enum EVENTS {
 })
 
 export class GameComponent implements OnInit{
-	constructor(){
+	constructor(private _cookieService:CookieService){
 		this.fullImagePath = '../../images/square.png';
 		this.count = 0;
 		this.total = 0;
@@ -28,8 +29,10 @@ export class GameComponent implements OnInit{
 		this.timeOnPage = 0;		// how much time user lost on pag
 		this.end = false;			// end of game
 		this.EVENTS = EVENTS;		// group of events clicked
-		this.counterIncBySec();		// incrementing score START
 		this.initCost();			// initialize cost of blocks
+		this.counterIncBySec();		// incrementing score START
+		this.getValFromCookies();
+
 	}
 
 	fullImagePath: any;
@@ -43,9 +46,50 @@ export class GameComponent implements OnInit{
 	end : boolean;
 	EVENTS: any;
 
+	getValFromCookies(){
+		let total = this._cookieService.getObject('total');
+		let count = this._cookieService.getObject('count');
+		let countPerSec = this._cookieService.getObject('countPerSec');
+		let cost = this._cookieService.getObject('cost');
+
+		if(!isNaN(+total) && !isNaN(+count) && !isNaN(+countPerSec) && cost){
+
+			this.total = +total;
+			this.count = +count;
+			this.countPerSec = +countPerSec;
+
+			for(let i=0; i<HOWMANYBLOCKS; i++){
+				if(cost[i]){
+					this.cost[i] = cost[i];
+				} else {
+					this.initCost();
+					break;
+				}
+			}
+		}
+
+	}
+
+	saveToCookie(){
+		this._cookieService.removeAll();
+
+		this._cookieService.putObject('total',this.total,7);
+		this._cookieService.putObject('count',this.count,7);
+		this._cookieService.putObject('countPerSec',this.countPerSec,7)
+		this._cookieService.putObject('cost',this.cost,7);
+	}
+
+	reset(){
+		this.total=0;
+		this.count=0;
+		this.countPerSec=0;
+		this.initCost();
+		this.saveToCookie();
+	}
+
 	initCost(){
-		for(let i=0; i<=HOWMANYBLOCKS; ++i){
-			this.cost.push(i*10);
+		for(let i=0; i<HOWMANYBLOCKS; ++i){
+			this.cost[i]=(i*10);
 		}
 	}
 
@@ -89,7 +133,6 @@ export class GameComponent implements OnInit{
 						choice = 1;
 					}
 				}
-
 				switch (choice){
 					case this.EVENTS.FIRST  : {
 						this.total+=1;

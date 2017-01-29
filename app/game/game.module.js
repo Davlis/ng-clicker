@@ -12,12 +12,14 @@ var core_1 = require('@angular/core');
 var game_component_1 = require('./game.component');
 var game_routing_module_1 = require('./game-routing.module');
 var common_1 = require('@angular/common');
+var cookies_service_1 = require('angular2-cookie/services/cookies.service');
 var GameModule = (function () {
     function GameModule() {
     }
     GameModule = __decorate([
         core_1.NgModule({
             imports: [game_routing_module_1.GameRoutingModule, common_1.CommonModule],
+            providers: [cookies_service_1.CookieService],
             declarations: [game_component_1.GameComponent]
         }), 
         __metadata('design:paramtypes', [])

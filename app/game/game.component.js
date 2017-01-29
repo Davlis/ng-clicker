@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var core_2 = require('angular2-cookie/core');
 exports.HOWMANYBLOCKS = 4;
 (function (EVENTS) {
     EVENTS[EVENTS["FIRST"] = 0] = "FIRST";
@@ -16,7 +17,8 @@ exports.HOWMANYBLOCKS = 4;
 })(exports.EVENTS || (exports.EVENTS = {}));
 var EVENTS = exports.EVENTS;
 var GameComponent = (function () {
-    function GameComponent() {
+    function GameComponent(_cookieService) {
+        this._cookieService = _cookieService;
         this.fullImagePath = '../../images/square.png';
         this.count = 0;
         this.total = 0;
@@ -29,12 +31,47 @@ var GameComponent = (function () {
         this.timeOnPage = 0; // how much time user lost on pag
         this.end = false; // end of game
         this.EVENTS = EVENTS; // group of events clicked
-        this.counterIncBySec(); // incrementing score START
         this.initCost(); // initialize cost of blocks
+        this.counterIncBySec(); // incrementing score START
+        this.getValFromCookies();
+    };
+    GameComponent.prototype.getValFromCookies = function () {
+        var total = this._cookieService.getObject('total');
+        var count = this._cookieService.getObject('count');
+        var countPerSec = this._cookieService.getObject('countPerSec');
+        var cost = this._cookieService.getObject('cost');
+        if (!isNaN(+total) && !isNaN(+count) && !isNaN(+countPerSec) && cost) {
+            this.total = +total;
+            this.count = +count;
+            this.countPerSec = +countPerSec;
+            for (var i = 0; i < exports.HOWMANYBLOCKS; i++) {
+                if (cost[i]) {
+                    this.cost[i] = cost[i];
+                }
+                else {
+                    this.initCost();
+                    break;
+                }
+            }
+        }
+    };
+    GameComponent.prototype.saveToCookie = function () {
+        this._cookieService.removeAll();
+        this._cookieService.putObject('total', this.total, 7);
+        this._cookieService.putObject('count', this.count, 7);
+        this._cookieService.putObject('countPerSec', this.countPerSec, 7);
+        this._cookieService.putObject('cost', this.cost, 7);
+    };
+    GameComponent.prototype.reset = function () {
+        this.total = 0;
+        this.count = 0;
+        this.countPerSec = 0;
+        this.initCost();
+        this.saveToCookie();
     };
     GameComponent.prototype.initCost = function () {
-        for (var i = 0; i <= exports.HOWMANYBLOCKS; ++i) {
-            this.cost.push(i * 10);
+        for (var i = 0; i < exports.HOWMANYBLOCKS; ++i) {
+            this.cost[i] = (i * 10);
         }
     };
     GameComponent.prototype.onClick = function (which) {
@@ -114,7 +151,7 @@ var GameComponent = (function () {
             templateUrl: 'game.component.html',
             styleUrls: ['game.component.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_2.CookieService])
     ], GameComponent);
     return GameComponent;
 }());
