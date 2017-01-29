@@ -1,6 +1,10 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 export const HOWMANYBLOCKS = 4;
+export enum EVENTS {
+	FIRST,
+	INCREMENTAL
+}
 
 @Component({
 	moduleId: module.id,
@@ -23,6 +27,7 @@ export class GameComponent implements OnInit{
 		this.countPerSec = 0;		// inc score per second
 		this.timeOnPage = 0;		// how much time user lost on pag
 		this.end = false;			// end of game
+		this.EVENTS = EVENTS;		// group of events clicked
 		this.counterIncBySec();		// incrementing score START
 		this.initCost();			// initialize cost of blocks
 	}
@@ -36,6 +41,7 @@ export class GameComponent implements OnInit{
 	timeOnPage : number;
 	total : number;
 	end : boolean;
+	EVENTS: any;
 
 	initCost(){
 		for(let i=0; i<=HOWMANYBLOCKS; ++i){
@@ -85,13 +91,13 @@ export class GameComponent implements OnInit{
 				}
 
 				switch (choice){
-					case 0 : {
+					case this.EVENTS.FIRST  : {
 						this.total+=1;
 						this.count+=1;
 						this.which[which]+=1;
 						break;
 					}
-					case 1 : {
+					case this.EVENTS.INCREMENTAL : {
 						let cost = this.cost[which];
 						if(this.count >= cost){
 							this.count-= cost;
@@ -102,16 +108,16 @@ export class GameComponent implements OnInit{
 					    break;
 					 }
 					default: {
-						console.log('wut?');
+						console.log('wut? ERROR');
 					}
 				}
 
 			}
 
-			if(this.count >= 10*10*10*10*10){
+			if(this.count >= 10*10*10*10*10){	// 100k
 				this.stop();
 				this.end = true;
-				alert('Wygrales');
+				alert('You won');
 			}
 		}
 	}

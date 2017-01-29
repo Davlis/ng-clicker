@@ -10,6 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 exports.HOWMANYBLOCKS = 4;
+(function (EVENTS) {
+    EVENTS[EVENTS["FIRST"] = 0] = "FIRST";
+    EVENTS[EVENTS["INCREMENTAL"] = 1] = "INCREMENTAL";
+})(exports.EVENTS || (exports.EVENTS = {}));
+var EVENTS = exports.EVENTS;
 var GameComponent = (function () {
     function GameComponent() {
         this.fullImagePath = '../../images/square.png';
@@ -23,6 +28,7 @@ var GameComponent = (function () {
         this.countPerSec = 0; // inc score per second
         this.timeOnPage = 0; // how much time user lost on pag
         this.end = false; // end of game
+        this.EVENTS = EVENTS; // group of events clicked
         this.counterIncBySec(); // incrementing score START
         this.initCost(); // initialize cost of blocks
     };
@@ -65,13 +71,13 @@ var GameComponent = (function () {
                     }
                 }
                 switch (choice) {
-                    case 0: {
+                    case this.EVENTS.FIRST: {
                         this.total += 1;
                         this.count += 1;
                         this.which[which] += 1;
                         break;
                     }
-                    case 1: {
+                    case this.EVENTS.INCREMENTAL: {
                         var cost = this.cost[which];
                         if (this.count >= cost) {
                             this.count -= cost;
@@ -82,14 +88,14 @@ var GameComponent = (function () {
                         break;
                     }
                     default: {
-                        console.log('wut?');
+                        console.log('wut? ERROR');
                     }
                 }
             }
             if (this.count >= 10 * 10 * 10 * 10 * 10) {
                 this.stop();
                 this.end = true;
-                alert('Wygrales');
+                alert('You won');
             }
         }
     };
