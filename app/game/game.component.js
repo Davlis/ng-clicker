@@ -9,9 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+exports.HOWMANYBLOCKS = 4;
 var GameComponent = (function () {
-    //@ViewChild('block1') block1: any;
-    //@ViewChild('block2') block2: any;
     function GameComponent() {
         this.fullImagePath = '../../images/square.png';
         this.count = 0;
@@ -19,50 +18,54 @@ var GameComponent = (function () {
     GameComponent.prototype.ngOnInit = function () {
         console.log('Game page');
         this.which = [];
+        this.cost = [];
         this.clickValue = 1;
         this.countPerSec = 0;
         this.counterIncBySec();
+        this.initCost();
+    };
+    GameComponent.prototype.initCost = function () {
+        for (var i = 0; i <= exports.HOWMANYBLOCKS; ++i) {
+            this.cost.push(i * 10);
+        }
     };
     GameComponent.prototype.onClick = function (which) {
-        var clickValue = 1;
         if (!isNaN(which)) {
-            this.count += clickValue;
             if (isNaN(this.which[which])) {
-                this.which[which] = 0;
-                this.which[which] += 1;
-            }
-            else {
-                this.which[which] += 1;
+                this.which[which] = 0; // how many clicked
             }
             this.logic(which);
         }
     };
     GameComponent.prototype.counterIncBySec = function () {
         var _this = this;
-        var that = this;
-        if (that.refToInterval) {
-            clearInterval(that.refToInterval);
+        if (this.refToInterval) {
+            clearInterval(this.refToInterval);
         }
-        that.refToInterval = setInterval(function () { that.count += _this.countPerSec; }, 1000);
+        this.refToInterval = setInterval(function () { _this.count += _this.countPerSec; }, 1000);
     };
     GameComponent.prototype.logic = function (which) {
         if (!isNaN(which)) {
-            switch (which) {
+            var choice = 0;
+            if (which >= 1) {
+                if (which <= 3) {
+                    choice = 1;
+                }
+            }
+            switch (choice) {
                 case 0: {
-                    console.log('0');
+                    this.count += 1;
+                    this.which[which] += 1;
                     break;
                 }
                 case 1: {
-                    console.log('1');
-                    break;
-                }
-                case 2: {
-                    console.log('2');
-                    break;
-                }
-                case 3: {
-                    this.countPerSec += 3;
-                    console.log('3');
+                    var cost = this.cost[which];
+                    if (this.count >= cost) {
+                        this.count -= cost;
+                        this.countPerSec += which;
+                        this.which[which] += 1;
+                        this.cost[which] += Math.ceil(this.cost[which] * 0.25);
+                    }
                     break;
                 }
                 default: {
@@ -72,6 +75,7 @@ var GameComponent = (function () {
         }
     };
     GameComponent.prototype.createRange = function (number) {
+        if (number === void 0) { number = exports.HOWMANYBLOCKS; }
         var items = [];
         for (var i = 1; i <= number; i++) {
             items.push(i);
@@ -83,6 +87,7 @@ var GameComponent = (function () {
             moduleId: module.id,
             selector: 'my-game',
             templateUrl: 'game.component.html',
+            styleUrls: ['game.component.css']
         }), 
         __metadata('design:paramtypes', [])
     ], GameComponent);

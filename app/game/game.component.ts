@@ -1,45 +1,50 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 
+export const HOWMANYBLOCKS = 4;
+
 @Component({
 	moduleId: module.id,
 	selector: 'my-game',
 	templateUrl: 'game.component.html',
+	styleUrls: ['game.component.css']
 })
 
 export class GameComponent implements OnInit{
-	ngOnInit(){
-		console.log('Game page');
-		this.which = [ ];
-		this.clickValue = 1;
-		this.countPerSec = 0;
-		this.counterIncBySec();
-	}
-
-	fullImagePath: any;
-	which : number[];
-	refToInterval : any;
-	clickValue : number;
-	countPerSec : number;
-	//@ViewChild('block1') block1: any;
-	//@ViewChild('block2') block2: any;
-
 	constructor(){
 		this.fullImagePath = '../../images/square.png';
 		this.count = 0;
 	}
 
+	ngOnInit(){
+		console.log('Game page');
+		this.which = [ ];
+		this.cost = [ ];
+		this.clickValue = 1;
+		this.countPerSec = 0;
+		this.counterIncBySec();
+
+		this.initCost();
+	}
+
+	fullImagePath: any;
+	which : number[];
+	cost  : number[];
+	refToInterval : any;
+	clickValue : number;
+	countPerSec : number;
 	count : number;
 
-	onClick(which:number){
-		let clickValue = 1;
+	initCost(){
+		for(let i=0; i<=HOWMANYBLOCKS; ++i){
+			this.cost.push(i*10);
+		}
+	}
 
+	onClick(which:number){
 		if(!isNaN(which)){
-			this.count+=clickValue;
+
 			if(isNaN(this.which[which])){
-				this.which[which]=0;
-				this.which[which]+=1;
-			}else{
-				this.which[which]+=1;
+				this.which[which]=0;	// how many clicked
 			}
 
 			this.logic(which);
@@ -47,31 +52,38 @@ export class GameComponent implements OnInit{
 	}
 
 	counterIncBySec(){
-		let that = this;
-
-			if(that.refToInterval){
-				clearInterval(that.refToInterval);
-			}
-
-			that.refToInterval = setInterval(() => { that.count+=this.countPerSec; }, 1000);
+		if(this.refToInterval){
+			clearInterval(this.refToInterval);
+		}
+		this.refToInterval = setInterval(() => { this.count+=this.countPerSec; }, 1000);
 	}
 
 	logic(which:number){
 		if(!isNaN(which)){
-			switch (which){
+
+		let choice=0;
+			if(which >= 1){
+				if(which <= 3){
+					choice = 1;
+				}
+			}
+
+			switch (choice){
 				case 0 : {
-					console.log('0'); break;
+					this.count+=1;
+					this.which[which]+=1;
+					break;
 				}
 				case 1 : {
-					console.log('1'); break;
-				}
-				case 2 : {
-					console.log('2'); break;
-				}
-				case 3 : {
-					this.countPerSec+=3;
-					console.log('3'); break;
-				}
+					let cost = this.cost[which];
+					if(this.count >= cost){
+						this.count-= cost;
+						this.countPerSec+=which;
+						this.which[which]+=1;
+						this.cost[which]+=Math.ceil(this.cost[which]*0.25);
+					}
+				    break;
+				 }
 				default: {
 					console.log('wut?');
 				}
@@ -80,7 +92,7 @@ export class GameComponent implements OnInit{
 		}
 	}
 
-	createRange(number: number){
+	createRange(number=HOWMANYBLOCKS){
 	  var items: number[] = [];
 	  for(var i = 1; i <= number; i++){
 	     items.push(i);

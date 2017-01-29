@@ -1,0 +1,11 @@
+#image{
+   position: relative;
+   display:inline-block;
+}
+
+h2 { 
+   position: absolute; 
+   top: 128px; 
+   left: 128px; 
+   width: 100%; 
+}
