@@ -57,13 +57,14 @@ var GameComponent = (function () {
             }
         }
     };
+    // todo : check why cookie expries after closing browser :(
     GameComponent.prototype.saveToCookie = function () {
-        this._cookieService.removeAll();
-        this._cookieService.putObject('total', this.total, 7);
-        this._cookieService.putObject('count', this.count, 7);
-        this._cookieService.putObject('countPerSec', this.countPerSec, 7);
-        this._cookieService.putObject('cost', this.cost, 7);
-        this._cookieService.putObject('timeOnPage', this.timeOnPage);
+        var expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        this._cookieService.putObject('total', this.total, { expires: expires });
+        this._cookieService.putObject('count', this.count, { expires: expires });
+        this._cookieService.putObject('countPerSec', this.countPerSec, { expires: expires });
+        this._cookieService.putObject('cost', this.cost, { expires: expires });
+        this._cookieService.putObject('timeOnPage', this.timeOnPage, { expires: expires });
     };
     GameComponent.prototype.reset = function () {
         this.total = 0;

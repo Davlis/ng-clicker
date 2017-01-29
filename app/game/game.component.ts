@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'angular2-cookie/core';
 
+import { CookieOptionsArgs } from 'angular2-cookie/services/cookie-options-args.model';
+
 export const HOWMANYBLOCKS = 4;
 export enum EVENTS {
 	FIRST,
@@ -72,14 +74,15 @@ export class GameComponent implements OnInit{
 
 	}
 
+	// todo : check why cookie expries after closing browser :(
 	saveToCookie(){
-		this._cookieService.removeAll();
+		let expires = new Date(Date.now() + 7*24*60*60*1000);
 
-		this._cookieService.putObject('total',this.total,7);
-		this._cookieService.putObject('count',this.count,7);
-		this._cookieService.putObject('countPerSec',this.countPerSec,7)
-		this._cookieService.putObject('cost',this.cost,7);
-		this._cookieService.putObject('timeOnPage',this.timeOnPage);
+		this._cookieService.putObject('total',this.total,{expires: expires});
+		this._cookieService.putObject('count',this.count,{expires: expires});
+		this._cookieService.putObject('countPerSec',this.countPerSec,{expires: expires})
+		this._cookieService.putObject('cost',this.cost,{expires: expires});
+		this._cookieService.putObject('timeOnPage',this.timeOnPage,{expires: expires});
 	}
 
 	reset(){
