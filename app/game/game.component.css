@@ -3,9 +3,9 @@
    display:inline-block;
 }
 
-h2 { 
+p { 
    position: absolute; 
-   top: 128px; 
-   left: 128px; 
+   top: 110px; 
+   left: 126px; 
    width: 100%; 
 }

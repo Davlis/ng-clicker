@@ -1,10 +1,10 @@
 <div>Ujebałeś {{count}} studentów</div>
 <div>Na sekunde : {{countPerSec}}</div>
 
-	<div id="image" *ngFor="let i of createRange(); let index = index">
+	<div id="image" *ngFor="let i of createRange(); let index = index" (click)="onClick(index)">
 			<!--<div>Ten blok kosztuje : {{cost[index]}}</div>!-->
 			<div>
-				<img [src]="fullImagePath" (click)="onClick(index)"/>
-				<h2>{{cost[index]}}</h2>
+				<img [src]="fullImagePath"/>
+				<p>{{cost[index]}}</p>
 			</div>
 	</div>
