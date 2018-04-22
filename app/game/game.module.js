@@ -9,10 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var game_component_1 = require('./game.component');
-var game_routing_module_1 = require('./game-routing.module');
 var common_1 = require('@angular/common');
 var cookies_service_1 = require('angular2-cookie/services/cookies.service');
+var game_component_1 = require('./game.component');
+var game_routing_module_1 = require('./game-routing.module');
 var GameModule = (function () {
     function GameModule() {
     }

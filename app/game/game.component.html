@@ -1,16 +1,19 @@
-<div>Grasz juz : {{timeOnPage}} sekund </div>
-<div>Punkty {{count}}</div>
+<div>Playing time : {{timeOnPage}} secs </div>
+<div>Scores : {{count}}</div>
 
-<div>Ujebales juz : {{total}}</div>
-<div>Na sekunde : {{countPerSec}}</div>
+<div>You screwed up : {{total}}</div>
+<div>Scores per seconds : {{countPerSec}}</div>
 
-<div><button (click)="saveToCookie()">Zapisz wynik</button></div>
-<div><button (click)="reset()">Od nowa</button></div>
+<div>
+	<button (click)="saveToCookie()">Save scores</button>
+</div>
+<div>
+	<button (click)="reset()">Restart</button>
+</div>
 
-	<div id="image" *ngFor="let i of createRange(); let index = index" (click)="onClick(index)">
-			<!--<div>Ten blok kosztuje : {{cost[index]}}</div>!-->
-			<div>
-				<img [src]="fullImagePath"/>
-				<p>{{cost[index]}}</p>
-			</div>
+<div id="image" *ngFor="let i of createRange(); let index = index" (click)="onClick(index)">
+	<div class="clickable">
+		<img [src]="fullImagePath" />
+		<p>{{cost[index]}}</p>
 	</div>
+</div>

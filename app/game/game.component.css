@@ -1,15 +1,19 @@
-#image{
-   position 	: relative;
-   display 		: inline-block;
+#image {
+  position: relative;
+  display: inline-block;
 }
 
-p{
-   font 	: Helvetica, Sans-Serif;
-   position : absolute; 
-   top 		: 110px; 
-   left 	: 126px; 
+p {
+  font: Helvetica, Sans-Serif;
+  position: absolute; 
+  top: 110px; 
+  left: 126px; 
 }
 
-p:hover{
-    background-color 	: yellow;
+p:hover {
+  background-color: yellow;
+}
+
+.clickable {
+  cursor: pointer;
 }

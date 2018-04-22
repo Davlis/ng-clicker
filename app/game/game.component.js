@@ -72,7 +72,6 @@ var GameComponent = (function () {
         this.countPerSec = 0;
         this.timeOnPage = 0;
         this.initCost();
-        //this.saveToCookie();
     };
     GameComponent.prototype.initCost = function () {
         for (var i = 0; i < exports.HOWMANYBLOCKS; ++i) {
@@ -144,7 +143,7 @@ var GameComponent = (function () {
     GameComponent.prototype.createRange = function (number) {
         if (number === void 0) { number = exports.HOWMANYBLOCKS; }
         var items = [];
-        for (var i = 1; i <= number; i++) {
+        for (var i = 1; i <= number; ++i) {
             items.push(i);
         }
         return items;
