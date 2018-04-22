@@ -1,13 +1,18 @@
-#image {
+.image {
   position: relative;
   display: inline-block;
+  width: 20vw;
+}
+.image img {
+  width: 100%;
 }
 
 p {
   font: Helvetica, Sans-Serif;
   position: absolute; 
-  top: 110px; 
-  left: 126px; 
+  top: 50%;
+  left: 50%;
+  margin: 0; 
 }
 
 p:hover {
@@ -16,4 +21,29 @@ p:hover {
 
 .clickable {
   cursor: pointer;
+}
+
+.separator {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+}
+
+.col {
+  flex-direction: column;
+}
+
+.center {
+  justify-content: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.wrap {
+  flex-wrap: wrap;
 }
