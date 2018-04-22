@@ -28,6 +28,19 @@ p:hover {
   margin-bottom: 10px;
 }
 
+button {
+  width: 100px;
+  height: 30px;
+  outline: 5px;
+  padding: 1px 2px 3px 2px;
+  background: burlywood;
+  border: 2px solid olive;
+}
+
+.item {
+  margin-bottom: 3px;
+}
+
 .container {
   display: flex;
 }
